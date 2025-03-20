@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to ChatGPT</title>
+    <script>
+        function redirectToChatGPT() {
+            // Get the URL parameter (text from Adalo)
+            const urlParams = new URLSearchParams(window.location.search);
+            const userText = urlParams.get("text") || "Hello, ChatGPT!";
+
+            // URL-encode the text for safe usage in the query string
+            const encodedText = encodeURIComponent(userText);
+
+            // Construct the ChatGPT URL with the encoded prompt
+            const chatGPTUrl = `https://chat.openai.com/?model=gpt-4&prompt=${encodedText}`;
+
+            // Redirect the user to ChatGPT
+            window.location.href = chatGPTUrl;
+        }
+        
+        // Run the function when the page loads
+        window.onload = redirectToChatGPT;
+    </script>
+</head>
+<body>
+    <p>Redirecting to ChatGPT...</p>
+</body>
+</html>
