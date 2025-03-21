@@ -3,56 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Encoder</title>
+    <title>ChatGPT Redirect with Custom Prompt</title>
     <script>
         function encodeText() {
-            // Get the text input from the URL parameter
+            // Get the sentence input from the URL parameter 'text'
             var urlParams = new URLSearchParams(window.location.search);
             var userInput = urlParams.get('text');
             
-            // Encode the input to a URL-safe format
+            // Encode the input to be URL safe
             var encodedInput = encodeURIComponent(userInput);
             
-            // Display the encoded text
+            // Display the encoded prompt (optional)
             document.getElementById("encodedOutput").innerText = encodedInput;
 
-            // Try to copy the encoded text to the clipboard automatically
-            if (!copyToClipboard(encodedInput)) {
-                // If automatic copying fails (e.g., on iOS), show a fallback message/button
-                document.getElementById("copyNotice").style.display = "block";
-            }
-
-            // Automatically navigate to the encoded URL after encoding
-            var encodedUrl = "https://yourusername.github.io/your-repository-name/?text=" + encodedInput;
-            window.location.href = encodedUrl;  // Redirect to the new URL
-        }
-
-        // Function to automatically copy the encoded result to the clipboard
-        function copyToClipboard(textToCopy) {
-            try {
-                navigator.clipboard.writeText(textToCopy).then(function() {
-                    console.log("Encoded text copied to clipboard!");
-                }).catch(function(err) {
-                    console.error("Failed to copy: " + err);
-                    return false;  // Return false if copying fails
-                });
-                return true;  // Return true if copying is successful
-            } catch (err) {
-                console.error("Error with clipboard: " + err);
-                return false;  // Return false if any error occurs
-            }
+            // Construct the URL to ChatGPT with the prompt in the URL
+            var chatGPTUrl = "https://chat.openai.com/chat?prompt=" + encodedInput;
+            
+            // Redirect to ChatGPT with the encoded prompt (or do it in a new tab)
+            window.location.href = chatGPTUrl;
         }
     </script>
 </head>
 <body onload="encodeText()">
-    <h1>URL Encoder</h1>
-    <h3>Encoded URL:</h3>
-    <p id="encodedOutput">Waiting for input...</p>
-
-    <!-- Fallback message/button for clipboard copy failure (e.g., iOS) -->
-    <div id="copyNotice" style="display:none;">
-        <p>The encoded text was not copied automatically. Please <strong>click here to copy it manually</strong>.</p>
-        <button onclick="copyToClipboard(document.getElementById('encodedOutput').innerText)">Copy Now</button>
-    </div>
+    <h1>Redirecting to ChatGPT with Custom Prompt</h1>
+    <p>Your prompt is being sent to ChatGPT...</p>
+    
+    <!-- Optional: Show the encoded prompt before redirecting -->
+    <h3>Encoded Prompt:</h3>
+    <p id="encodedOutput">Loading...</p>
 </body>
 </html>
