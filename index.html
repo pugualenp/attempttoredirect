@@ -15,18 +15,32 @@
             
             // Display the encoded text
             document.getElementById("encodedOutput").innerText = encodedInput;
-            
-            // Automatically copy the encoded text to the clipboard
-            copyToClipboard(encodedInput);
+
+            // Try to copy the encoded text to the clipboard automatically
+            if (!copyToClipboard(encodedInput)) {
+                // If automatic copying fails (e.g., on iOS), show a fallback message/button
+                document.getElementById("copyNotice").style.display = "block";
+            }
+
+            // Automatically navigate to the encoded URL after encoding
+            var encodedUrl = "https://yourusername.github.io/your-repository-name/?text=" + encodedInput;
+            window.location.href = encodedUrl;  // Redirect to the new URL
         }
 
         // Function to automatically copy the encoded result to the clipboard
         function copyToClipboard(textToCopy) {
-            navigator.clipboard.writeText(textToCopy).then(function() {
-                console.log("Encoded text copied to clipboard!"); // Optional: log success to console
-            }).catch(function(err) {
-                console.error("Failed to copy: " + err); // Optional: log error to console
-            });
+            try {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    console.log("Encoded text copied to clipboard!");
+                }).catch(function(err) {
+                    console.error("Failed to copy: " + err);
+                    return false;  // Return false if copying fails
+                });
+                return true;  // Return true if copying is successful
+            } catch (err) {
+                console.error("Error with clipboard: " + err);
+                return false;  // Return false if any error occurs
+            }
         }
     </script>
 </head>
@@ -34,5 +48,11 @@
     <h1>URL Encoder</h1>
     <h3>Encoded URL:</h3>
     <p id="encodedOutput">Waiting for input...</p>
+
+    <!-- Fallback message/button for clipboard copy failure (e.g., iOS) -->
+    <div id="copyNotice" style="display:none;">
+        <p>The encoded text was not copied automatically. Please <strong>click here to copy it manually</strong>.</p>
+        <button onclick="copyToClipboard(document.getElementById('encodedOutput').innerText)">Copy Now</button>
+    </div>
 </body>
 </html>
