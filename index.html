@@ -3,28 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>URL Encoder</title>
     <script>
-        function redirectToChatGPT() {
-            // Get the URL parameter (text from Adalo)
-            const urlParams = new URLSearchParams(window.location.search);
-            const userText = urlParams.get("text") || "Hello, ChatGPT!";
-
-            // Encode it for safe URL usage
-            const encodedText = encodeURIComponent(userText);
-
-            // Construct the ChatGPT URL
-            const chatGPTUrl = `https://chat.openai.com/?model=gpt-4&prompt=${encodedText}`;
-
-            // Redirect the user
-            window.location.href = chatGPTUrl;
+        function encodeText() {
+            // Get the text input from the user
+            var userInput = document.getElementById("userInput").value;
+            // Encode the input to a URL-safe format
+            var encodedInput = encodeURIComponent(userInput);
+            // Display the encoded text
+            document.getElementById("encodedOutput").innerText = encodedInput;
         }
-        
-        // Run function on page load
-        window.onload = redirectToChatGPT;
     </script>
 </head>
 <body>
-    <p>Redirecting to ChatGPT...</p>
+    <h1>URL Encoder</h1>
+    <textarea id="userInput" placeholder="Enter complex sentence here..." rows="4" cols="50"></textarea>
+    <br>
+    <button onclick="encodeText()">Encode</button>
+    <h3>Encoded URL:</h3>
+    <p id="encodedOutput"></p>
 </body>
 </html>
