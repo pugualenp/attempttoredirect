@@ -6,21 +6,33 @@
     <title>URL Encoder</title>
     <script>
         function encodeText() {
-            // Get the text input from the user
-            var userInput = document.getElementById("userInput").value;
+            // Get the text input from the URL parameter
+            var urlParams = new URLSearchParams(window.location.search);
+            var userInput = urlParams.get('text');
+            
             // Encode the input to a URL-safe format
             var encodedInput = encodeURIComponent(userInput);
+            
             // Display the encoded text
             document.getElementById("encodedOutput").innerText = encodedInput;
+            
+            // Automatically copy the encoded text to the clipboard
+            copyToClipboard(encodedInput);
+        }
+
+        // Function to automatically copy the encoded result to the clipboard
+        function copyToClipboard(textToCopy) {
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                console.log("Encoded text copied to clipboard!"); // Optional: log success to console
+            }).catch(function(err) {
+                console.error("Failed to copy: " + err); // Optional: log error to console
+            });
         }
     </script>
 </head>
-<body>
+<body onload="encodeText()">
     <h1>URL Encoder</h1>
-    <textarea id="userInput" placeholder="Enter complex sentence here..." rows="4" cols="50"></textarea>
-    <br>
-    <button onclick="encodeText()">Encode</button>
     <h3>Encoded URL:</h3>
-    <p id="encodedOutput"></p>
+    <p id="encodedOutput">Waiting for input...</p>
 </body>
 </html>
