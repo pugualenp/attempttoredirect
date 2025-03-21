@@ -15,10 +15,21 @@
                 const encodedPrompt = encodeURIComponent(prompt);
 
                 // Construct the ChatGPT URL with the encoded prompt
-                const chatGPTUrl = "https://chat.openai.com/chat?prompt=" + encodedPrompt;
+                const chatGPTUrl = "https://chat.openai.com/chat";
 
-                // Redirect to the ChatGPT URL
+                // Redirect the user to the ChatGPT page
                 window.location.href = chatGPTUrl;
+
+                // Wait for the ChatGPT page to load and fill the input field with the prompt
+                setTimeout(function() {
+                    // Find the input field for the prompt on ChatGPT
+                    const chatInput = document.querySelector("textarea");
+
+                    // If the input field is found, set the value to the prompt
+                    if (chatInput) {
+                        chatInput.value = prompt;
+                    }
+                }, 2000); // 2 seconds delay to allow ChatGPT to load fully
             } else {
                 // If there's no 'text' parameter, just display a message
                 document.body.innerHTML = '<h1>Error: No prompt found in URL</h1>';
