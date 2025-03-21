@@ -3,33 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGPT Redirect with Custom Prompt</title>
+    <title>Redirect to ChatGPT with Custom Prompt</title>
     <script>
-        function encodeText() {
-            // Get the sentence input from the URL parameter 'text'
-            var urlParams = new URLSearchParams(window.location.search);
-            var userInput = urlParams.get('text');
-            
-            // Encode the input to be URL safe
-            var encodedInput = encodeURIComponent(userInput);
-            
-            // Display the encoded prompt (optional)
-            document.getElementById("encodedOutput").innerText = encodedInput;
+        window.onload = function() {
+            // Extract the 'text' query parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const prompt = urlParams.get('text');
 
-            // Construct the URL to ChatGPT with the prompt in the URL
-            var chatGPTUrl = "https://chat.openai.com/chat?prompt=" + encodedInput;
-            
-            // Redirect to ChatGPT with the encoded prompt (or do it in a new tab)
-            window.location.href = chatGPTUrl;
+            if (prompt) {
+                // Encode the prompt to make sure it's URL-safe
+                const encodedPrompt = encodeURIComponent(prompt);
+
+                // Construct the ChatGPT URL with the encoded prompt
+                const chatGPTUrl = "https://chat.openai.com/chat?prompt=" + encodedPrompt;
+
+                // Redirect to the ChatGPT URL
+                window.location.href = chatGPTUrl;
+            } else {
+                // If there's no 'text' parameter, just display a message
+                document.body.innerHTML = '<h1>Error: No prompt found in URL</h1>';
+            }
         }
     </script>
 </head>
-<body onload="encodeText()">
-    <h1>Redirecting to ChatGPT with Custom Prompt</h1>
-    <p>Your prompt is being sent to ChatGPT...</p>
-    
-    <!-- Optional: Show the encoded prompt before redirecting -->
-    <h3>Encoded Prompt:</h3>
-    <p id="encodedOutput">Loading...</p>
+<body>
+    <h1>Redirecting to ChatGPT...</h1>
+    <p>If you are not redirected, <a href="" id="redirectLink">click here</a>.</p>
 </body>
 </html>
